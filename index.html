@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="color-scheme" content="dark">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' https: http: data:; font-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'; frame-src 'none'">
+  <title>AKSH Browser</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="browser-chrome">
+      <div class="tab-row">
+        <a class="brand" href="#" aria-label="AKSH Browser home">
+          
+          <span class="brand-name">AKSH'BROWSER</span>
+        </a>
+        <div id="tabs" class="tabs" role="tablist" aria-label="Browser tabs"></div>
+        <button id="newTab" class="icon-button new-tab" type="button" aria-label="New tab" title="New tab (Ctrl+T)">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 4v12M4 10h12"/></svg>
+        </button>
+        <div class="window-spacer" aria-hidden="true"></div>
+      </div>
+      <div class="toolbar">
+        <div class="nav-controls">
+          <button id="back" class="icon-button" type="button" aria-label="Go back" title="Back (Alt+Left)" disabled>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m11.8 4.5-5.5 5.5 5.5 5.5M6.7 10h8"/></svg>
+          </button>
+          <button id="forward" class="icon-button" type="button" aria-label="Go forward" title="Forward (Alt+Right)" disabled>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m8.2 4.5 5.5 5.5-5.5 5.5m5.1-5.5h-8"/></svg>
+          </button>
+          <button id="reload" class="icon-button" type="button" aria-label="Reload" title="Reload (Ctrl+R)">
+            <svg class="reload-icon" viewBox="0 0 20 20" aria-hidden="true"><path d="M16 9a6 6 0 0 0-10.3-3L4 7.7M4 4.5v3.7h3.7M4 11a6 6 0 0 0 10.3 3l1.7-1.7m0 3.2v-3.7h-3.7"/></svg>
+          </button>
+        </div>
+        <form id="addressForm" class="address-form" autocomplete="off">
+          <span class="address-shield" aria-hidden="true">
+            <svg viewBox="0 0 20 20"><path d="M10 2.8 15.5 5v4.3c0 3.4-2.2 6.2-5.5 7.9-3.3-1.7-5.5-4.5-5.5-7.9V5L10 2.8Z"/><path d="m7.6 9.8 1.6 1.6 3.2-3.3"/></svg>
+          </span>
+          <input id="addressBar" type="text" spellcheck="false" aria-label="Search or enter website address" placeholder="Search or enter address" />
+          <button id="bookmarkCurrent" class="address-action" type="button" aria-label="Bookmark this page" title="Bookmark this page">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m10 2.8 2.2 4.5 5 .7-3.6 3.5.9 5-4.5-2.4-4.5 2.4.9-5-3.6-3.5 5-.7L10 2.8Z"/></svg>
+          </button>
+          <button class="address-submit" type="submit" aria-label="Go to address">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4"/></svg>
+          </button>
+        </form>
+        <div class="toolbar-actions">
+          <button id="showBookmarks" class="icon-button" type="button" aria-label="Bookmarks" title="Bookmarks">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M5 3.5h10v13l-5-3-5 3v-13Z"/></svg>
+          </button>
+          <button id="showHistory" class="icon-button" type="button" aria-label="History" title="Browsing history">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M3.3 9a6.8 6.8 0 1 1 .8 4.1M3 4.5v4h4m3-1.8v3.6l2.5 1.4"/></svg>
+          </button>
+          <button id="settingsButton" class="icon-button" type="button" aria-label="Settings" title="Settings">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8.2 3.2h3.6l.5 1.9 1.5.9 1.9-.5 1.8 3.1-1.4 1.4v1.8l1.4 1.4-1.8 3.1-1.9-.5-1.5.9-.5 1.9H8.2l-.5-1.9-1.5-.9-1.9.5-1.8-3.1 1.4-1.4v-1.8L2.5 8.6l1.8-3.1 1.9.5 1.5-.9.5-1.9Z" transform="translate(0 -1) scale(.94)"/><circle cx="10" cy="10" r="2.4"/></svg>
+          </button>
+        </div>
+      </div>
+      <div class="bookmark-shelf">
+        <button id="appsButton" class="apps-button" type="button" aria-label="Open a new tab" title="New tab">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><rect x="3" y="3" width="5" height="5" rx="1"/><rect x="12" y="3" width="5" height="5" rx="1"/><rect x="3" y="12" width="5" height="5" rx="1"/><rect x="12" y="12" width="5" height="5" rx="1"/></svg>
+        </button>
+        <div id="bookmarkBar" class="bookmark-bar" aria-label="Bookmarks bar"></div>
+      </div>
+      <div id="loadTrack" class="load-track" aria-hidden="true"><span id="loadProgress"></span></div>
+      <div id="pageNotice" class="page-notice" role="status" hidden></div>
+    </header>
+
+    <main id="content" class="content">
+      <section id="newTabPage" class="newtab-page" aria-label="New tab page">
+        <div class="home-content">
+          <div class="home-clock" aria-label="Current time">
+            <div class="clock-reading"><span id="clockTime"></span><span id="clockPeriod" class="clock-period"></span></div>
+            <span id="clockDate" class="clock-date"></span>
+          </div>
+          <button id="homeSettings" class="home-settings" type="button" aria-label="Personalize new tab" title="Settings">
+            <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M8.2 3.2h3.6l.5 1.9 1.5.9 1.9-.5 1.8 3.1-1.4 1.4v1.8l1.4 1.4-1.8 3.1-1.9-.5-1.5.9-.5 1.9H8.2l-.5-1.9-1.5-.9-1.9.5-1.8-3.1 1.4-1.4v-1.8L2.5 8.6l1.8-3.1 1.9.5 1.5-.9.5-1.9Z" transform="translate(0 -1) scale(.94)"/><circle cx="10" cy="10" r="2.4"/></svg>
+          </button>
+          <section class="shortcuts-section" aria-label="Favorite websites">
+            <div id="shortcuts" class="shortcuts"></div>
+          </section>
+          <div class="home-search-wrap">
+            <form id="homeSearchForm" class="home-search">
+              <span class="search-brand-mark" aria-hidden="true"><span></span></span>
+              <input id="homeSearch" type="text" autocomplete="off" placeholder="Search the web or enter an address…" aria-label="Search the web or enter a URL">
+            </form>
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <div id="libraryOverlay" class="overlay" hidden>
+    <section class="library-panel" role="dialog" aria-modal="true" aria-labelledby="libraryTitle">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Your library</p>
+          <h2 id="libraryTitle">Bookmarks</h2>
+        </div>
+        <button id="closeLibrary" class="icon-button" type="button" aria-label="Close library">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg>
+        </button>
+      </div>
+      <div id="libraryList" class="library-list"></div>
+    </section>
+  </div>
+
+  <dialog id="settingsDialog" class="settings-dialog">
+    <form method="dialog" class="settings-card">
+      <div class="panel-heading">
+        <div>
+          <p class="eyebrow">Make it yours</p>
+          <h2>Settings</h2>
+        </div>
+        <button class="icon-button settings-close" type="submit" aria-label="Close settings">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="m5 5 10 10M15 5 5 15"/></svg>
+        </button>
+      </div>
+      <label class="setting-row" for="searchEngine">
+        <span><strong>Search engine</strong><small>Used when you enter a search query.</small></span>
+        <select id="searchEngine" name="searchEngine">
+          <option value="google">Google</option>
+          <option value="bing">Bing</option>
+          <option value="duckduckgo">DuckDuckGo</option>
+        </select>
+      </label>
+      <p class="settings-note">Your bookmarks, history, and preferences are stored on this device.</p>
+    </form>
+  </dialog>
+  <script src="render.js"></script>
+</body>
+</html>

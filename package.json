@@ -1,0 +1,35 @@
+
+{
+  "name": "aksh-browser",
+  "version": "2.0.0",
+  "productName": "AKSH Browser",
+  "description": "A focused desktop browser. Your web, your way.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "package": "electron-forge package",
+    "make": "electron-forge make"
+  },
+  "keywords": [],
+  "author": "Aksh",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@electron-forge/cli": "^8.0.1",
+    "@electron-forge/maker-squirrel": "^8.0.1",
+    "electron": "^43.4.1"
+  },
+  "config": {
+    "forge": {
+      "packagerConfig": {},
+      "makers": [
+        {
+          "name": "@electron-forge/maker-squirrel",
+          "config": {
+            "name": "AkshBrowser"
+          }
+        }
+      ]
+    }
+  }
+}
